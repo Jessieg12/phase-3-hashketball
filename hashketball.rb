@@ -1,4 +1,7 @@
 # Write your code below game_hash
+
+require "pry"
+
 def game_hash
   {
     home: {
@@ -127,3 +130,108 @@ def game_hash
 end
 
 # Write code here
+
+=begin
+def num_points_scored(player_name)
+  home = game_hash[:home][:players]
+  away = game_hash[:away][:players]
+
+  home_player = home.find do |player|
+   player[:player_name] == player_name
+  end
+  if home_player
+    return home_player[:points]
+  end
+  away_player = away.find do |player|
+    player[:player_name] == player_name
+  end
+  if away_player
+    return away_player[:points]
+  end
+end
+
+
+def shoe_size(player_name)
+  home = game_hash[:home][:players]
+  away = game_hash[:away][:players]
+
+  home_player = home.find do |player|
+    player[:player_name] == player_name
+  end
+  if home_player
+    return home_player[:shoe]
+  end
+  away_player = away.find do |player|
+    player[:player_name] == player_name
+  end
+  if away_player
+    return away_player[:shoe]
+  end
+end
+=end
+
+def all_players
+  game_hash[:home][:players] + game_hash[:away][:players]
+ end
+
+def all_teams(team)
+  found_team = game_hash.find do |location, teams|
+    teams[:team_name] == team
+  end
+  found_team[1]
+end
+
+ def finder(player_name)
+   all_players.find do |player|
+     player[:player_name] == player_name
+   end
+ end
+ 
+ def num_points_scored(player_name)
+   player = finder(player_name)
+   return player[:points]
+ end
+ 
+ 
+ def shoe_size(player_name)
+   player = finder(player_name)
+   return player[:shoe]
+ end
+ 
+
+def team_colors(team)
+  #all_teams.find do |team|
+  #  binding.pry
+  #  team[:team_name] == team
+  #  binding.pry
+  #  return team[:colors]
+  searched_team = all_teams(team)
+  searched_team[:colors]
+end
+
+def team_names
+  game_hash.map do |location, teams|
+    teams[:team_name]
+  end
+end
+
+def player_numbers(team)
+  team_numbers = all_teams(team)
+  team_numbers[:players].map do |numbers|
+    numbers[:number]
+  end
+end
+
+def player_stats(player_name)
+  found = all_players.find do |player|
+    player_name == player[:player_name]
+  end
+  return found
+end
+
+def big_shoe_rebounds
+ found = all_players.max_by do |player|
+    player[:shoe]
+  end
+  found[:rebounds]
+end
